@@ -1,16 +1,8 @@
 <p align="center">
-   <img src="https://user-images.githubusercontent.com/36738524/194679135-d4e0a6ac-775b-4642-a395-e1caf4e7411d.png" alt="Página inicial">
+   <!-- <img src="https://user-images.githubusercontent.com/36738524/194679135-d4e0a6ac-775b-4642-a395-e1caf4e7411d.png" alt="Página inicial"> -->
 </p>
 
-## Tópicos 
-
-[Sobre o blue money](#sobre)
-
-[Tecnologias](#tecnologias)
-
-[Instalação e uso](#instalação-e-uso)
-
-[Licença](#licença)
+##
 
 <br>
 
