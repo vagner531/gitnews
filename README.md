@@ -38,7 +38,7 @@ Tecnologias e ferramentas utilizadas no desenvolvimento do projeto:
 $ git clone https://github.com/vagner531/gitnews
 
 # Access
-$ cd ignews
+$ cd gitnews
 
 # Install dependencies
 $ yarn install
