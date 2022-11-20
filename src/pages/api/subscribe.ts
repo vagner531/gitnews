@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { query as q } from 'faunadb'
 import { getSession } from "next-auth/react";
+
 import { fauna } from "../../services/fauna";
+import { query as q } from 'faunadb';
 import { stripe } from "../../services/stripe";
 
 type User = {
@@ -9,11 +10,11 @@ type User = {
     id: string;
   }
   data: {
-    stripe_customer_id: string
+    stripe_customer_id: string;
   }
 }
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse){
+export default async function subscribe(req: NextApiRequest, res: NextApiResponse){
   if (req.method === 'POST') {
     const session = await getSession({ req })
 
@@ -37,7 +38,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse){
           q.Ref(q.Collection('users'), user.ref.id),
           {
             data: {
-              stripe_customer_id: stripeCustomer.id,
+              stripe_customer_id: stripeCustomer.id
             }
           }
         )
@@ -46,9 +47,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse){
       customerId = stripeCustomer.id
     }
   
-
+    // Criando uma Checkout Session do Stripe
     const stripeCheckoutSession = await stripe.checkout.sessions.create({
-      customer: customerId,
+      customer: customerId, // usuário cadastrado no Stripe
       payment_method_types: ['card'],
       billing_address_collection: 'required',
       line_items: [

@@ -13,17 +13,15 @@ export default NextAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       authorization: {
         params: {
-          scope: 'read:user'
+          scope: 'read:user, user.email'
         }
       }
     })
   ],
-  // jwt: {
-  //   signingKey: process.env.SIGNING_KEY,
-  // },
+
   callbacks: {
-    async signIn({ user, account, profile }) {
-      const { email } = user
+    async signIn({ user, account, profile}) {
+      const  email  = user.email
 
       try {
         await fauna.query(
@@ -32,7 +30,7 @@ export default NextAuth({
               q.Exists(
                 q.Match(
                   q.Index('user_by_email'),
-                  q.Casefold(user.email)
+                  q.Casefold(email)
                 )
               )
             ),
@@ -43,7 +41,7 @@ export default NextAuth({
             q.Get(
               q.Match(
                 q.Index('user_by_email'),
-                q.Casefold(user.email)
+                q.Casefold(email)
               )
             )
           )

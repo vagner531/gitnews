@@ -3,10 +3,11 @@ import { Readable } from "stream";
 import Stripe from "stripe";
 import { stripe } from "../../services/stripe";
 
+// Função para pegar todas as info retornadas pouco a pouco, e transformar em um Objeto Buffer 
 async function buffer(readable: Readable) {
   const chunks = [];
 
-  for await (const chunk of readable) {
+  for await(const chunk of readable) {
     chunks.push(
       typeof chunk === "string" ? Buffer.from(chunk) : chunk
     );
@@ -15,15 +16,19 @@ async function buffer(readable: Readable) {
   return Buffer.concat(chunks);
 }
 
+/*Por padrão, o Next espera que as Req. sejam JSON e afins, como essa Req. é uma stream, 
+desabilitamos o comportamento padrão através dessa config.*/
 export const confing = {
   api: {
     bodyParser: false
   },
 };
 
-const relevantEvents = new Set(['checkout.session.completed'])
+const relevantEvents = new Set([
+  "checkout.session.completed"
+])
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function webhooks(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const buf = await buffer(req)
     const secret = req.headers['stripe-signature']
