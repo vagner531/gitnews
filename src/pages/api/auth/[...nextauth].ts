@@ -7,16 +7,18 @@ import { fauna } from '../../../services/fauna';
 
 
 export default NextAuth({
+  secret: process.env.NEXT_AUTH_SECRET,
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       authorization: {
         params: {
-          scope: 'read:user, user.email'
+          scope: "read:user",
         }
       }
-    })
+    }),
+      // ...add more providers here
   ],
 
   callbacks: {
