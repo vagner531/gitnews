@@ -26,7 +26,10 @@ export const config = {
 };
 
 const relevantEvents = new Set([
-  "checkout.session.completed"
+  'checkout.session.completed',
+  'customer.subscriptions.created',
+  'customer.subscriptions.updated',
+  'customer.subscriptions.deleted',
 ])
 
 export default async function webhooks(req: NextApiRequest, res: NextApiResponse) {
@@ -51,14 +54,28 @@ export default async function webhooks(req: NextApiRequest, res: NextApiResponse
 
     if (relevantEvents.has(type)) {
       try {
-        switch (type) {
-          case 'checkout.session.completed':
+        switch(type) {
+          case 'customer.subscriptions.created':
+          case 'customer.subscriptions.updated':
+          case 'customer.subscriptions.deleted':
 
-          const checkoutSession = event.data.object as Stripe.Checkout.Session
+            const subscription = event.data.object as Stripe.Subscription;
+
+            await saveSubscription(
+              subscription.id,
+              subscription.customer.toString(),
+              false
+            );
+
+            break;
+
+          case 'checkout.session.completed':
+            const checkoutSession = event.data.object as Stripe.Checkout.Session
 
             await saveSubscription(
               checkoutSession.subscription.toString(),
-              checkoutSession.customer.toString()
+              checkoutSession.customer.toString(),
+              true
             )
 
             break;
@@ -66,7 +83,7 @@ export default async function webhooks(req: NextApiRequest, res: NextApiResponse
             throw new Error('Unhandled event.')
         }
       } catch (err) {
-        return res.json({ error: 'Webhook handler filed. '})
+        return res.json({ error: 'Webhook handler filed. ' })
       }
     }
 
