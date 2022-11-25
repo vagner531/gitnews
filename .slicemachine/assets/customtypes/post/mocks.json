@@ -1,0 +1,23 @@
+{
+  "id": "mock-doc-id",
+  "url": null,
+  "type": "post",
+  "href": null,
+  "tags": [],
+  "first_publication_date": "1970-01-01T00:00:01+0000",
+  "last_publication_date": "1970-01-01T00:00:01+0000",
+  "slugs": [],
+  "linked_documents": [],
+  "lang": "en-us",
+  "alternate_languages": [],
+  "data": {
+    "title": "told",
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "Ipsum esse voluptate Lorem ex culpa laboris laboris in laboris adipisicing non esse veniam. Fugiat amet sit fugiat est minim adipisicing qui adipisicing eiusmod magna. Magna mollit in cupidatat nostrud magna esse aliquip id aute minim ipsum occaecat eu velit.",
+        "spans": []
+      }
+    ]
+  }
+}
